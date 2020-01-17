@@ -1,11 +1,15 @@
 const express = require("express");
+const morgan = require("morgan");
+
 const routes = require("./routes");
 const postRouter = require("./routers/postRouter");
+
 const app = express();
 
 const PORT = 4000;
 
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use(routes.posts, postRouter);
 
