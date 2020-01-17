@@ -13,11 +13,9 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       userId: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       author: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       title: {
