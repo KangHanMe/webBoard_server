@@ -7,11 +7,7 @@ module.exports = {
         attributes: { exclude: ["content", "password", "updatedAt"] }
       })
       .then(data => {
-        if (data) {
-          res.status(200).send(data);
-        } else {
-          res.sendStatus(204);
-        }
+        res.status(200).send(data);
       })
       .catch(err => {
         console.log(err);
@@ -21,20 +17,24 @@ module.exports = {
   post: (req, res) => {
     const { isLogin, author, password, title, content } = req.body;
 
-    posts
-      .create({
-        isLogin: isLogin,
-        author: author,
-        password: password,
-        title: title,
-        content: content
-      })
-      .then(() => {
-        res.status(200).send("게시글이 정상적으로 등록되었습니다");
-      })
-      .catch(err => {
-        console.log(err);
-        res.sendStatus(404);
-      });
+    if (author === "" || password === "" || title === "" || content === "") {
+      res.status(400).send("잘못된 요청입니다");
+    } else {
+      posts
+        .create({
+          isLogin: isLogin,
+          author: author,
+          password: password,
+          title: title,
+          content: content
+        })
+        .then(() => {
+          res.status(200).send("게시글이 정상적으로 등록되었습니다");
+        })
+        .catch(err => {
+          console.log(err);
+          res.sendStatus(404);
+        });
+    }
   }
 };
