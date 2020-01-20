@@ -14,38 +14,64 @@ module.exports = {
       res.status(500).json({ error: error.message });
     }
   },
-  put: async (req, res) => {
-    // 글 수정
+  post: async (req, res) => {
+    // (비밀번호 확인하는 부분) -- 비밀번호가 맞으면, 쿠키-세션을 이용해 인증 권한을 준다.
     try {
       const { id } = req.params;
-      const { password, title, content } = req.body;
+      const { password } = req.body;
+      const sess = req.session;
 
-      if (
-        password === "" ||
-        title === "" ||
-        content === "" ||
-        typeof password !== "string" ||
-        typeof title !== "string" ||
-        typeof content !== "string"
-      ) {
-        res.sendStatus(404);
+      if (password === "" || typeof password !== "string") {
+        res.status(404).send("wrong password");
       } else {
         const postPassword = await posts.findOne({
           attributes: ["password"],
           where: { id: id }
         });
 
-        if (password === postPassword.dataValues.password) {
+        if (password === postPassword.password) {
+          sess.postid = id;
+          res.status(200).send("세션 발급됨");
+        } else {
+          res.status(404).send("wrong password");
+        }
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+  put: async (req, res) => {
+    // 글 수정
+    try {
+      const { id } = req.params;
+      const { author, title, content } = req.body;
+      const sess = req.session;
+
+      if (sess.postid === id) {
+        if (
+          author === "" ||
+          title === "" ||
+          content === "" ||
+          typeof author !== "string" ||
+          typeof title !== "string" ||
+          typeof content !== "string"
+        ) {
+          res.sendStatus(404);
+        } else {
           await posts.update(
-            { title: title, content: content },
+            { author: author, title: title, content: content },
             {
               where: { id: id }
             }
           );
-          res.sendStatus(200);
-        } else {
-          res.status(404).send("wrong password");
+
+          delete sess.postid;
+          sess.save(() => {
+            res.status(200).send("수정됨");
+          });
         }
+      } else {
+        res.status(401).send("Not found Session");
       }
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -62,7 +88,7 @@ module.exports = {
         where: { id: id }
       });
 
-      if (password === postPassword.dataValues.password) {
+      if (password === postPassword.password) {
         await posts.destroy({
           where: { id: id }
         });
