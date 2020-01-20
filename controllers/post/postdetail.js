@@ -21,9 +21,9 @@ module.exports = {
       const { password, title, content } = req.body;
 
       if (
-        !password ||
-        !title ||
-        !content ||
+        password === "" ||
+        title === "" ||
+        content === "" ||
         typeof password !== "string" ||
         typeof title !== "string" ||
         typeof content !== "string"

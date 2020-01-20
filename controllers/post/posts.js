@@ -18,10 +18,10 @@ module.exports = {
     const { isLogin, author, password, title, content } = req.body;
 
     if (
-      !author ||
-      !password ||
-      !title ||
-      !content ||
+      author === "" ||
+      password === "" ||
+      title === "" ||
+      content === "" ||
       typeof author !== "string" ||
       typeof password !== "string" ||
       typeof title !== "string" ||
