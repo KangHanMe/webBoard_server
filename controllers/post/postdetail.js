@@ -6,6 +6,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const post = await posts.findOne({
+        attributes: { exclude: ["password", "updatedAt"] },
         where: { id: id }
       });
       res.status(200).json(post);
