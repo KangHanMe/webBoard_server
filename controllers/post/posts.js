@@ -28,8 +28,8 @@ module.exports = {
           title: title,
           content: content
         })
-        .then(() => {
-          res.status(200).send("게시글이 정상적으로 등록되었습니다");
+        .then(data => {
+          res.status(200).json(data.dataValues.id);
         })
         .catch(err => {
           console.log(err);
