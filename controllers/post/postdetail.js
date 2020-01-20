@@ -20,7 +20,14 @@ module.exports = {
       const { id } = req.params;
       const { password, title, content } = req.body;
 
-      if (!password || !title || !content) {
+      if (
+        !password ||
+        !title ||
+        !content ||
+        typeof password !== "string" ||
+        typeof title !== "string" ||
+        typeof content !== "string"
+      ) {
         res.sendStatus(404);
       } else {
         const postPassword = await posts.findOne({
