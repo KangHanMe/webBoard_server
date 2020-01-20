@@ -17,7 +17,16 @@ module.exports = {
   post: (req, res) => {
     const { isLogin, author, password, title, content } = req.body;
 
-    if (author === "" || password === "" || title === "" || content === "") {
+    if (
+      author === "" ||
+      password === "" ||
+      title === "" ||
+      content === "" ||
+      typeof author !== "string" ||
+      typeof password !== "string" ||
+      typeof title !== "string" ||
+      typeof content !== "string"
+    ) {
       res.status(400).send("잘못된 요청입니다");
     } else {
       posts
