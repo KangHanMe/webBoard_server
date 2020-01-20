@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const session = require("express-session");
+require("dotenv").config();
 
 const routes = require("./routes");
 const postRouter = require("./routers/postRouter");
@@ -13,6 +15,13 @@ const PORT = 4000;
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 // router
 app.use(routes.posts, postRouter);
