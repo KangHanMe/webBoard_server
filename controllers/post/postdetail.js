@@ -65,10 +65,8 @@ module.exports = {
             }
           );
 
-          delete sess.postid;
-          sess.save(() => {
-            res.status(200).send("수정됨");
-          });
+          sess.destroy();
+          res.status(200).send("수정됨");
         }
       } else {
         res.status(401).send("Not found Session");
