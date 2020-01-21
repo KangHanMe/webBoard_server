@@ -7,6 +7,7 @@ require("dotenv").config();
 const routes = require("./routes");
 const postRouter = require("./routers/postRouter");
 const commentRouter = require("./routers/commentRouter");
+const searchRouter = require("./routers/searchRouter");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(
 // router
 app.use(routes.posts, postRouter);
 app.use(routes.comments, commentRouter);
+app.use(routes.search, searchRouter);
 
 app.listen(PORT, () =>
   console.log(`Web-board server is listening on port ${PORT}!`)

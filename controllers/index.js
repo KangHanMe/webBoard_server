@@ -1,4 +1,5 @@
 module.exports = {
   postController: require("./post"),
-  commentController: require("./comment")
+  commentController: require("./comment"),
+  searchController: require("./search")
 };
