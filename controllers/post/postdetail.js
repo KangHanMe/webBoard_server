@@ -45,7 +45,7 @@ module.exports = {
     // 글 수정
     try {
       const { id } = req.params;
-      const { author, title, content } = req.body;
+      const { author, title, content, password } = req.body;
       const sess = req.session;
 
       if (sess.postid === id) {
@@ -53,14 +53,21 @@ module.exports = {
           author === "" ||
           title === "" ||
           content === "" ||
+          password === "" ||
           typeof author !== "string" ||
           typeof title !== "string" ||
-          typeof content !== "string"
+          typeof content !== "string" ||
+          typeof password !== "string"
         ) {
           res.sendStatus(404);
         } else {
           await posts.update(
-            { author: author, title: title, content: content },
+            {
+              author: author,
+              title: title,
+              content: content,
+              password: password
+            },
             {
               where: { id: id }
             }
