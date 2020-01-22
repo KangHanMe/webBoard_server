@@ -1,6 +1,7 @@
 // Posts
 const POSTS = "/posts";
 const POST_DETAIL = "/:id";
+const POST_COMMENTS = "/comments/:id";
 
 // Comments
 const COMMENTS = "/comments";
@@ -14,7 +15,8 @@ const routes = {
   postDetail: POST_DETAIL,
   comments: COMMENTS,
   commentDetail: COMMENT_DETAIL,
-  search: SEARCH
+  search: SEARCH,
+  postComments: POST_COMMENTS
 };
 
 module.exports = routes;

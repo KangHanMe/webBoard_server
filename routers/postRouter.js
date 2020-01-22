@@ -8,6 +8,8 @@ const postRouter = express.Router();
 postRouter.get("/", postController.posts.get);
 // * POST /posts
 postRouter.post("/", postController.posts.post);
+// * GET /posts/comments/:id
+postRouter.get(routes.postComments, postController.postcomments.get);
 // * GET /posts/:id
 postRouter.get(routes.postDetail, postController.postdetail.get);
 // * POST /posts/:id
