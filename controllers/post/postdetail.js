@@ -1,23 +1,15 @@
 const { posts } = require("../../models");
-const { comments } = require("../../models");
 
 module.exports = {
   get: async (req, res) => {
-    // 글 내용 가져오기 & 댓글 가져오기
+    // 글 내용만 가져오기
     try {
       const { id } = req.params;
       const post = await posts.findOne({
         where: { id: id }
       });
-      const commentsList = await comments.findAll({
-        attributes: ["isLogin", "userId", "author", "content", "createdAt"],
-        where: {
-          postId: id
-        }
-      });
-      Promise.all([post, commentsList]).then(data => {
-        res.status(200).json(data);
-      });
+
+      res.status(200).json(post);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
