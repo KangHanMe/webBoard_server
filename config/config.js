@@ -21,8 +21,9 @@ module.exports = {
   production: {
     username: env.DB_USER,
     password: env.DB_PASSWORD,
-    database: "webBoard",
-    host: "localhost",
+    database: "board",
+    host: env.DB_HOST,
+    port: env.DB_PORT,
     dialect: "mysql",
     operatorsAliases: false
   }
