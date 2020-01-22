@@ -1,18 +1,33 @@
-const { posts } = require("../../models");
+const { posts, comments } = require("../../models");
+const sequelize = require("sequelize");
 
 module.exports = {
-  get: (req, res) => {
-    posts
-      .findAll({
-        attributes: { exclude: ["content", "password", "updatedAt"] }
-      })
-      .then(data => {
-        res.status(200).send(data);
-      })
-      .catch(err => {
-        console.log(err);
-        res.sendStatus(500);
+  get: async (req, res) => {
+    try {
+      const postsComments = await posts.findAll({
+        attributes: [
+          "id",
+          "isLogin",
+          "author",
+          "title",
+          "createdAt",
+          [
+            sequelize.fn("COUNT", sequelize.col("comments.postId")),
+            "commentCount"
+          ]
+        ],
+        include: [
+          {
+            model: comments,
+            attributes: []
+          }
+        ],
+        group: "posts.id"
       });
+      res.status(200).json(postsComments);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   },
   post: (req, res) => {
     const { isLogin, author, password, title, content } = req.body;
