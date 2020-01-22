@@ -17,7 +17,16 @@ module.exports = {
   post: (req, res) => {
     const { isLogin, author, password, title, content } = req.body;
 
-    if (author === "" || password === "" || title === "" || content === "") {
+    if (
+      author === "" ||
+      password === "" ||
+      title === "" ||
+      content === "" ||
+      typeof author !== "string" ||
+      typeof password !== "string" ||
+      typeof title !== "string" ||
+      typeof content !== "string"
+    ) {
       res.status(400).send("잘못된 요청입니다");
     } else {
       posts
@@ -28,8 +37,8 @@ module.exports = {
           title: title,
           content: content
         })
-        .then(() => {
-          res.status(200).send("게시글이 정상적으로 등록되었습니다");
+        .then(data => {
+          res.status(200).json(data.dataValues.id);
         })
         .catch(err => {
           console.log(err);

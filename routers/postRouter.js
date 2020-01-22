@@ -14,6 +14,8 @@ postRouter.get("/", postController.posts.get);
 postRouter.post("/", postController.posts.post);
 // * GET /posts/:id
 postRouter.get(routes.postDetail, postController.postdetail.get);
+// * POST /posts/:id
+postRouter.post(routes.postDetail, postController.postdetail.post);
 // * PUT /posts/:id
 postRouter.put(routes.postDetail, postController.postdetail.put);
 // * DELETE /posts/:id
