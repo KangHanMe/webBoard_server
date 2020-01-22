@@ -6,7 +6,14 @@ module.exports = {
     try {
       const { id } = req.params;
       const commensList = await comments.findAll({
-        attributes: ["isLogin", "userId", "author", "content", "createdAt"],
+        attributes: [
+          "id",
+          "isLogin",
+          "userId",
+          "author",
+          "content",
+          "createdAt"
+        ],
         where: { postId: id }
       });
       res.status(200).json(commensList);
