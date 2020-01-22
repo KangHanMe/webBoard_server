@@ -11,7 +11,7 @@ module.exports = {
         res.status(400).send("잘못된 요청입니다");
       } else {
         const seachedPosts = await posts.findAll({
-          attributes: ["author", "title", "content"],
+          attributes: { exclude: ["content", "password", "updatedAt"] },
           where: {
             [Op.or]: [
               {
